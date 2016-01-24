@@ -1,0 +1,60 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <meta charset="utf-8">
+    <title>Tic Tac Toe v0.9.2</title>
+    
+    <script src="bower_components/jquery/dist/jquery.min.js"></script>
+    <script src="bower_components/bootstrap/dist/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="bower_components/bootstrap/dist/css/bootstrap.min.css">
+    <!-- 
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.2.0/jquery.min.js"></script>
+    <script src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/js/bootstrap.min.js"></script>
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.6/css/bootstrap.min.css">
+    -->
+    <script src="script.js"></script>
+    <link rel="stylesheet" type="text/css" href="style.css">
+</head>
+
+<body>
+    <table class="text-center container-centered">
+        <tr>
+            <td id="tl" class=""></td>
+            <td id="tc" class="v"></td>
+            <td id="tr" class=""></td>
+        </tr>
+        <tr>
+            <td id="ml" class="h"></td>
+            <td id="mc" class="v h"></td>
+            <td id="mr" class="h"></td>
+        </tr>
+        <tr>
+            <td id="bl" class=""></td>
+            <td id="bc" class="v"></td>
+            <td id="br" class=""></td>
+        </tr>
+    </table>
+
+    <button type="button" data-toggle="modal" data-target="#modal-1" id="restart">Restart</button>
+    <div class='container'>
+        <div class="modal fade" id="modal-1">
+            <div class='modal-dialog'>
+                <div class='modal-content'>
+                    <h3 class='modal-title text-center'>Player select:</h3>
+                    <div class="modal-body text-center">
+                        <a href="" class="options" id="X" data-dismiss="modal">X</a>
+                        <a href="" class="options" id="0" data-dismiss="modal">0</a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <!-- <script>
+	    $(document).ready(function() {
+	        setTimeout(function() {a
+	            $('#restart').trigger('click');
+	        }, 1200);
+	    })
+    </script> -->
+    </body>
+</html>
