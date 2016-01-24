@@ -1,7 +1,5 @@
 
 var board = ["tl", "tc", "tr", "ml", "mc", "mr", "bl", "bc", "br"];
-
-
 var combinations = [
     ["tl", "tc", "tr"],
     ["ml", "mc", "mr"],
@@ -14,7 +12,7 @@ var combinations = [
 ];
 var board_copy = board.slice();
 var can_move = true;
-// var move_number = 0;
+var time = 100;
 var player = {
         name: 'player',
         id: 'X',
@@ -30,156 +28,105 @@ var player = {
 
 $(document).ready(function() {
     
+    $(".options").click(function(event) {
+        player.id = event.target.id;
+        if (player.id == '0') {
+            player.id = '0';
+            computer.id = 'X';
+        } else {
+            player.id = 'X';
+            computer.id = '0';
+        }
+    });
+
     // Random start
     // if(Math.random() > 0.5) {
     //     computer_move();
     // }
 
-    function win(val) {
-        
-        // This is where the modularized ai() could come in handy
-        // All we're doing is iterating over the combination just used?
-        // Stop the game
+
+    function check_for_move(who) {
+        combinations.forEach(function(val, i) {
+            var count = 0;
             
+            for (var i = 0; i < who.moves.length; i++) {
+                if(val.indexOf(who.moves[i]) != -1) {
+                    count++;
+                };
+
+                if(count == 3) {
+                    win(val);
+                };
+
+                if(count == 2) {  
+                    var make_move = val.filter(function(v,i) {
+                        return who.moves.indexOf(v) < 0;
+                    });
+
+                    if(make_move && can_move && $('#'+make_move).is(":empty")) {
+                        can_move = false;
+                        add_to_html(make_move[0], computer);
+                    }
+                }
+            };
+        });
+    }
+
+    function win(val) {
         $("td").prop("disabled", true);
         
         val.forEach(function(a) {
             $('#' + a).addClass('avail');
         })
-
+        restart();
     }
 
+    function restart() {
+        console.log('GAME OVER');
+        $("td").prop("disabled", true);
+        
+        setTimeout(function() {
+            $("#restart").trigger('click');
+        }, 400);
+    }
 
     // After player click, add to board
     function add_to_html(id, who) {
         $('#'+id).html("<p>" + who.id + "</p>");
         board_copy.splice(board_copy.indexOf(id), 1);
         who.moves.push(id);
-
-        // if (move_array.length == 3) {
-        //     running = false;
-        //     console.log("Player " + id + " has just won. give up. Winning combination was: " + combo);
-            
-        //     combo.forEach(function(a) {
-        //         $('#' + a).addClass('avail');
-        //     });
-            
-        //     setTimeout(function() {
-        //         $('#restart').trigger('click');
-        //     },1500);
-
     }
 
-    function ai(who) {
-        var who = who || player;
-        // exit the function if computer already made a move.
-        can_move = true;
-
-
-        // This checks if 'player' has a potential winning move.
-        if(player.moves.length >= 2) {
-            // Match the combination where player potentially has 2/3
-            combinations.forEach(function(val, i) {
-                var count = 0;
-                
-                for (var i = 0; i < player.moves.length; i++) {
-                    if(val.indexOf(player.moves[i]) != -1) {
-                        count++;
-                    };
-
-
-                    // This also has to work for the computer
-                    if(count == 3) {
-                        win(val);
-                    };
-
-                    // Runs into the problem whereby a count of two doesn't recognize if the combination is full
-                    if(count == 2) {
-                        var make_move = val.filter(function(v,i) {
-                            return player.moves.indexOf(v) < 0;
-                        });
-
-                        if(make_move && can_move && $('#'+make_move).is(":empty")) {
-                            
-                            can_move = false;
-                            add_to_html(make_move, computer);
-                        }
-                    }
-
-                };
-            });
-        };
-
-    };
-
-    // Is this redundant?
     function computer_move() {
-        
-        // var who = who || player;
         // exit the function if computer already made a move.
         can_move = true;
 
+        // This and the player conditions are redundant
+        if(computer.moves.length >= 2) {
+            check_for_move(computer);
+        }
 
-        // This checks if 'player' has a potential winning move.
-        if(player.moves.length >= 2) {
-            // Match the combination where player potentially has 2/3
-            combinations.forEach(function(val, i) {
-                var count = 0;
-                
-                for (var i = 0; i < player.moves.length; i++) {
-                    if(val.indexOf(player.moves[i]) != -1) {
-                        count++;
-                    };
-
-
-                    // This also has to work for the computer
-                    if(count == 3) {
-                        win(val);
-                    };
-
-                    // Runs into the problem whereby a count of two doesn't recognize if the combination is full
-                    if(count == 2) {
-                        var make_move = val.filter(function(v,i) {
-                            return player.moves.indexOf(v) < 0;
-                        });
-
-                        if(make_move && can_move && $('#'+make_move).is(":empty")) {
-                            
-                            can_move = false;
-                            add_to_html(make_move, computer);
-                        }
-                    }
-
-                };
-            });
+        if(player.moves.length >= 2 && can_move) {
+            check_for_move(player);
         };
 
         // Defaults to random move
         if(can_move) {
             var randomMove = board_copy[Math.floor(Math.random()* board_copy.length)];
             add_to_html(randomMove, computer);
+            // check for the win here?
         }
-
     }
 
     // Main activity
     $("td").click(function(event) {
         if ($(event.target).is(":empty")) {
-            var time = 100;
             var target = event.target;
             add_to_html(target.id, player);
             computer_move();
-
-            
             if(board_copy.length == 0) {
-                console.log('GAME OVER');
-                $("td").prop("disabled", true);
-                
-                setTimeout(function() {
-                    $("#restart").trigger('click');
-                }, 400);
+                restart();
             }
-            
         }
     })
 
