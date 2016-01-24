@@ -11,6 +11,26 @@ body {
     -webkit-user-select: none;
 }
 
+p {
+    font-size: 1.2em;
+}
+
+.sidebar {
+    position: absolute;
+}
+
+.data {
+    top: 50px;
+    position: relative;
+    display: inline-block;
+    margin: 20px;
+    padding: 6px;   
+}
+
+span {
+    margin-bottom: 10px;
+}
+
 button {
     float: left;
     margin-top: 20px;
@@ -21,14 +41,6 @@ button {
 }
 
 .winner {
-    color: #EB0000;
-}
-
-.loser {
-    color: rgba(0, 0, 0, 0.1);
-}
-
-.avail {
     background: #A5F686;
 }
 
@@ -91,6 +103,9 @@ a.options {
 }
 
 #restart {
+    position: absolute;
+    float: left;
+    clear: right;
     font-size: 2em;
     margin: 20px;
 }

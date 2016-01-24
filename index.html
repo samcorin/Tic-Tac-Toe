@@ -35,7 +35,18 @@
         </tr>
     </table>
 
-    <button type="button" data-toggle="modal" data-target="#modal-1" id="restart">Restart</button>
+    <div class="sidebar">
+        
+        <button type="button" data-toggle="modal" data-target="#modal-1" id="restart">Restart</button>
+        
+        <div class="data">
+            <p>Player score is: <span class="player_score">0</span></p>
+            <p>Opponent score is: <span class="computer_score">0</span></p>
+            <span class="dialog">Do your best</span>
+        </div>
+
+    </div>
+
     <div class='container'>
         <div class="modal fade" id="modal-1">
             <div class='modal-dialog'>
@@ -49,12 +60,12 @@
             </div>
         </div>
     </div>
-    <!-- <script>
+    <script>
 	    $(document).ready(function() {
-	        setTimeout(function() {a
+	        setTimeout(function() {
 	            $('#restart').trigger('click');
-	        }, 1200);
+	        }, 1000);
 	    })
-    </script> -->
+    </script>
     </body>
 </html>
